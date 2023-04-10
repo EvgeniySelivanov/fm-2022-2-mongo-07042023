@@ -1,0 +1,45 @@
+use('fm_mongo');
+// db.createCollection('studios',{
+// validator:{
+//   $jsonSchema:{
+//     bsonType:'object',
+//     required:['name'],
+//     properties:{
+//       name:{
+//         bsonType:'string'
+//       }
+//     }
+//   }
+// }
+// }
+// )
+// db.studios.insertMany([{name:'Worner Brothers'},{name:'Fox'}, {name:'Marvel'}])
+// db.movies.find();
+
+
+// db.movies.aggregate([
+//   {
+//     $lookup:
+//       {
+//         from:'studios',
+//         localField: 'studioId',
+//         foreignField: '_id',
+//         as:'studio'
+//       }
+//  },
+//  {$unwind:'$studio'},
+//  {$unset:"studio._id"}
+// ]);
+db.movies.aggregate([
+  {
+    $group:
+    {
+      _id:'$studioId',
+      amount:{$sum:1},
+    }
+  }
+]);
+
+// "6433c50713fedfd15ccad763"
+  // "6433c50713fedfd15ccad764"
+  // "6433c50713fedfd15ccad765"

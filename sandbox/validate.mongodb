@@ -1,13 +1,17 @@
-// use('fm_mongo');
+use('fm_mongo');
+// db.movies.drop();
 // db.createCollection("movies", {
 //   validator: {
 //     $jsonSchema: {
 //       bsonType: "object",
-//       required: ["title", "director", "moreInfo"],
+//       required: ["title", "director", "moreInfo","studioId"],
 //       properties: {
 //         title: {
 //           bsonType: "string",
 //           description: "must be string"
+//         },
+//         studioId:{
+//           bsonType:"objectId",
 //         },
 //         director: {
 //           bsonType: "string",
@@ -32,10 +36,63 @@
 //     }
 //   }
 // });
-// db.movies.insertMany([{
-//   title:"It",
-//   director:"Tarantino",
-//   moreInfo:{
-//     genre:"horror",
-//     year:2000
-//   }}]);
+db.movies.insertMany([
+  {
+  title: "Monsters 2",
+  studioId: new ObjectId('6433c50713fedfd15ccad763'),
+  director: "Tarantino",
+  moreInfo: {
+    genre: "horror",
+    year: 2000
+  }
+},
+{
+  title: "Monsters 3",
+  studioId: new ObjectId('6433c50713fedfd15ccad763'),
+  director: "Tarantino",
+  moreInfo: {
+    genre: "horror",
+    year: 2000
+  }
+},
+{
+  title: "Avengers",
+  studioId: new ObjectId('6433c50713fedfd15ccad764'),
+  director: "Tarantino",
+  moreInfo: {
+    genre: "drama",
+    year: 2000
+  }
+},
+{
+  title: "Avengers2",
+  studioId: new ObjectId('6433c50713fedfd15ccad764'),
+  director: "Tarantino",
+  moreInfo: {
+    genre: "drama",
+    year: 2000
+  }
+},
+{
+  title: "Avengers3",
+  studioId: new ObjectId('6433c50713fedfd15ccad764'),
+  director: "Tarantino",
+  moreInfo: {
+    genre: "drama",
+    year: 2000
+  }
+},
+{
+  title: "Titanic",
+  studioId: new ObjectId('6433c50713fedfd15ccad765'),
+  director: "Tarantino",
+  moreInfo: {
+    genre: "comedy",
+    year: 2000
+  }
+},
+
+]);
+  // "6433c50713fedfd15ccad763"
+  // "6433c50713fedfd15ccad764"
+  // "6433c50713fedfd15ccad765"

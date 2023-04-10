@@ -7,7 +7,7 @@ const { Schema } = mongoose;
 mongoose
   .connect('mongodb://localhost:27017/fm_mongoose')
   .catch((error) => console.log(error));
-  
+
 const emailSchema = yup.string().trim().email().required();
 
 const taskSchema = new Schema({
@@ -48,9 +48,12 @@ const taskSchema = new Schema({
 
 const Task = mongoose.model('Task', taskSchema);
 
+
 const app = express();
 const server = http.createServer(app);
 app.use(express.json());
+
+
 
 app.get('/', async (req, res, next) => {
   try {
@@ -59,7 +62,21 @@ app.get('/', async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-})
+});
+
+
+app.get('/:taskId', async (req, res, next) => {
+  try {
+    const { params: { taskId } } = req;
+    const task = await Task.findById(taskId);
+    res.status(200).send({ data: task })
+  } catch (error) {
+    next(error);
+  }
+});
+
+
+
 app.post('/', async (req, res, next) => {
   try {
     const { body } = req;
@@ -68,8 +85,30 @@ app.post('/', async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-
 })
+
+app.delete('/:taskId', async (req, res, next) => {
+  try {
+    const { params: { taskId } } = req;
+    console.log(taskId);
+    const task = await Task.findByIdAndDelete(taskId);
+    res.status(200).send({ data: task })
+  } catch (error) {
+    next(error);
+  }
+});
+app.patch('/:taskId', async (req, res, next) => {
+  try {
+    const { params: { taskId }, body } = req;
+    const updateTask = await Task.findByIdAndUpdate(taskId, body,{new:true});
+    console.log(updateTask);
+    res.status(200).send({data:updateTask})
+  } catch (error) {
+    next(error);
+  }
+});
+
+
 
 const port = process.env.PORT || 3000;
 server.listen(port, () => {
