@@ -12,7 +12,7 @@ const emailSchema = yup.string().trim().email().required();
 
 const taskSchema = new Schema(
   {
-  
+
     content: {
       type: String,
       required: true,
@@ -53,8 +53,8 @@ const taskSchema = new Schema(
     // comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
   },
   {
-    versionKey:false,
-    timestamps:true
+    versionKey: false,
+    timestamps: true
   }
 );
 
@@ -64,15 +64,15 @@ const commentSchema = new Schema({
     required: true
   },
   task: {
-     type: Schema.Types.ObjectId,
-      ref: 'Task'
-     },
+    type: Schema.Types.ObjectId,
+    ref: 'Task'
+  },
 
 },
-{
-  versionKey:false,
-  timestamps:true
-}
+  {
+    versionKey: false,
+    timestamps: true
+  }
 );
 
 const Task = mongoose.model('Task', taskSchema);
@@ -96,8 +96,10 @@ app.get('/tasks', async (req, res, next) => {
 app.get('/tasks/:taskId', async (req, res, next) => {
   try {
     const { params: { taskId } } = req;
-    const task = await Task.findById(taskId);
-    res.status(200).send({ data: task })
+    // const task = await Task.findById(taskId);
+    // const task = await Comment.populate(await Comment.find({ task: taskId }), { path: 'task' });
+    const task = await Comment.populate(await Comment.find({task:taskId}), {path: 'task', select:['content', 'owner']});
+    res.status(200).send({ data: task });
   } catch (error) {
     next(error);
   }
@@ -115,7 +117,7 @@ app.post('/tasks', async (req, res, next) => {
 });
 
 
-app.delete('/task/:taskId', async (req, res, next) => {
+app.delete('/tasks/:taskId', async (req, res, next) => {
   try {
     const { params: { taskId } } = req;
     console.log(taskId);
@@ -125,7 +127,7 @@ app.delete('/task/:taskId', async (req, res, next) => {
     next(error);
   }
 });
-app.patch('/task/:taskId', async (req, res, next) => {
+app.patch('/tasks/:taskId', async (req, res, next) => {
   try {
     const { params: { taskId }, body } = req;
     const updateTask = await Task.findByIdAndUpdate(taskId, body, { new: true });
@@ -150,9 +152,9 @@ app.post('/tasks/:idTask/comments', async (req, res, next) => {
 
 app.get('/comments', async (req, res, next) => {
   try {
-    const comments = await  Comment
-    .find()
-    .populate('task');
+    const comments = await Comment
+      .find()
+      .populate('task');
     res.status(200).send({ data: comments });
 
   } catch (error) {
@@ -161,14 +163,7 @@ app.get('/comments', async (req, res, next) => {
 });
 
 
-// app.get('/comments', async (req, res, next) => {
-//   try {
-//     const comments = await Comment.find();
-//     res.status(200).send({ data: comments });
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+
 const server = http.createServer(app);
 const port = process.env.PORT || 3000;
 server.listen(port, () => {
