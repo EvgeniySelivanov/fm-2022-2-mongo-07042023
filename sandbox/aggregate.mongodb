@@ -30,15 +30,30 @@ use('fm_mongo');
 //  {$unwind:'$studio'},
 //  {$unset:"studio._id"}
 // ]);
-db.movies.aggregate([
-  {
-    $group:
-    {
-      _id:'$studioId',
-      amount:{$sum:1},
-    }
-  }
-]);
+// db.movies.aggregate([
+//   {
+//     $group:
+//     {
+//       _id:'$studioId',
+//       amount:{$sum:1},
+//     }
+//   }
+// ]);
+
+// db.movies.aggregate([
+//   {
+//     $sort:
+//       { title: -1 }
+//   },
+//   { 
+//     $skip: 2 
+//   },
+//   { 
+//     $limit: 2 
+//   },
+//  ]);
+
+// db.movies.find().limit(2).skip(0)
 
 // "6433c50713fedfd15ccad763"
   // "6433c50713fedfd15ccad764"

@@ -1,1 +1,1 @@
-GET http://localhost:3000/6433b95b90c8334dee7e1d13 HTTP/1.1
+GET http://localhost:3000/tasks/6433b95b90c8334dee7e1d13 HTTP/1.1
